@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <title>  Online Classifield - Đặng Mai Nhung</title>
+    </head>
+    <script>
+        function doSearch() {
+            alert("Search simulation");
+        }
+        function doHelp() {
+            window.open("https://www.uel.edu.vn/", "_blank"); 
+        } 
+    </script>
+    <style>
+        body {
+            background-color: lightskyblue;
+        }
+        h1 {
+            color: red;
+            margin-top: 20px;
+        }
+        h3 {
+            font-size: 14px;
+            margin: 15px 0 5px 0;
+        }
+        table {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+        td {
+            font-size: 14px;
+            padding: 3px 10px;
+        }
+        input[type="text"] {
+            padding: 3px;
+            margin: 3px;
+        }
+        input[type="image"] {
+            margin: 10px 15px 0 15px;
+            vertical-align: middle;
+        }       
+
+    </style>
+    <body>
+        <form id="online_classifield">
+            <h1>Online Classifieds Search Form</h1>
+            <hr>
+            <h3>1) Search for a classified in the following sections:</h3>
+            <table>
+                <tr>
+                    <td><input type="radio" name="section" id="s1"> Employment</td>
+                    <td><input type="radio" name="section" id="s2"> Personal</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="section" id="s3"> For Sale</td>
+                    <td><input type="radio" name="section" id="s4"> Miscellaneous</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="section" id="s5"> Housing</td>
+                    <td><input type="radio" name="section" id="s6"> All of the above</td>
+                </tr>
+            </table>
+            <h3>2) Search the following publications:</h3>
+            <table>
+                <tr>
+                    <td><input type="checkbox"> Midwest Times</td>
+                    <td><input type="checkbox"> Modern News</td>
+                    <td><input type="checkbox"> Employment Today</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"> Great Lakes Classifieds</td>
+                    <td><input type="checkbox"> Middleton Daily</td>
+                    <td><input type="checkbox"> Cashtown Daily News</td>
+                </tr>
+            </table>
+            <h3>3) From
+                <input type="text" placeholder="mm/dd/yy" name="from_date" id="from_date"> 
+                to
+                <input type="text" placeholder="mm/dd/yy" name="to_date" id="to_date">
+            </h3>
+            <h3>4) Enter a few keywords to describe the classified</h3>
+            <input type="text" size="70">
+            <h3>5) Click one of the options below:</h3>
+            <p>
+                <input type="image" src="images/Search.gif" onclick="javascript: doSearch()">
+                <input type="image" src="images/Help.gif" onclick="javascript: doHelp()">
+                <input type="image" src="images/Cancel.gif" onclick="document.getElementById('online_classifield').reset()">
+            </p>
+        </form>
+    </body>
+</html>
