@@ -1,0 +1,187 @@
+<html>
+    <head>
+        <title> Register - Đặng Mai Nhung </title>
+         <style>
+        body {
+            background-color:lightskyblue;
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,p{
+            text-align: center;
+        }
+
+        button:active {
+            border-style: inset;
+        }
+
+        hr {
+            border-top: 1px;
+            margin: 20px 0;
+        }
+
+        input[type="text"],select, textarea
+        {
+            padding: 4px;
+            font-size: 14px;
+        }
+
+
+        td {
+            padding: 8px;
+            font-size: 14px;
+            vertical-align: top;
+            padding: 8px;
+        }
+        button {
+            padding: 5px 15px;
+            font-size: 14px;
+        }
+        </style>
+        <script>
+            function register() {
+                alert("Thank you for Registration!");
+            }
+    </script>
+    </head>
+    <body>
+        <p>
+            <img src="images/Jackson.gif"/>
+        </p>
+        <h1>Registration Form</h1>
+        <p>Register your Jackson Electronics product here</p>
+        <form action="RegisterGet.html" method="get">
+            <table cellpadding="5" cellspacing="5">
+                <tr>
+                    <td><label for="firstname">First Name:</label></td>
+                    <td>
+                        <input type="text" name="firstname" id="firstname"/>
+                    </td>
+                    <td><label for="lastname">Last Name:</label></td>
+                    <td>
+                        <input type="text" name="lastname" id="lastname"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="address1">Address #1:</label></td>
+                    <td colspan="3">
+                        <input type="text" name="address1" id="address1" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="address2">Address #2:</label></td>
+                    <td colspan="3">
+                        <input type="text" name="address2" id="address2" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="city">City:</label></td>
+                    <td colspan="5">
+                        <input type="text" id="city" name="city" size="20">
+                        <label for="state">State:</label>
+                        <input type="text" id="state" name="state" size="10">
+                        <label for="zip">Zip:</label>
+                        <input type="text" id="zip" name="zip" size="10">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td><label for="country">Country:</label></td>
+                    <td>
+                        <input type="text" name="country" id="country"/>
+                    </td>
+                </tr>
+            </table>
+            <hr>
+            <table>
+                <tr>
+                    <td>Product:</td>
+                    <td>
+                        <select id="product" name="product">
+                            <option value="1">ScanMaster</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="date">Date Purchased:</label></td>
+                    <td>
+                        <input type="text" name="date" id="date"/>           
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="serial">Serial #:</label></td>
+                    <td>
+                        <input type="text" name="serial" id="serial"/>           
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="3">Used for:</td>
+                    <td>
+                        <input type="radio" name="home" id="home"/>
+                        <label for="home">Home</label>
+                    </td>
+                    <td>
+                        <input type="radio" name="edu" id="edu"/>
+                        <label for="edu">Educational Institution</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="business" id="business"/>
+                        <label for="business">Business</label>
+                    </td>
+                    </td>
+                    <td>
+                        <input type="radio" name="other" id="other"/>
+                        <label for="other">Other</label>
+                    </td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="gov" id="gov"/>
+                        <label for="gov">Government</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        System (check all that apply):</td>
+                    <td>
+                        <input type="checkbox" name="c1" id="c1"/>
+                        <label for="c1">Windows</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="c2" id="c2"/>
+                        <label for="c2">UNIX</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="c3" id="c3"/>
+                        <label for="c3">Macintosh</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="c4" id="c4"/>
+                        <label for="c4">Other</label>
+                    </td>
+                </tr>
+            </table>
+            <hr>
+            <table>
+                <td rowspan="7">Comments:</td>
+                <td>
+                    <textarea rows="7" cols="60" type="text" name="comments" id="comments"></textarea>    
+                </td>
+            </table>
+            <hr>
+            <p>
+                <button type="button" onclick="javascript: register()">Click to Register</button>
+                <button type="reset">Click to cancel</button>
+            </p>
+        </form>
+    </body>
+</html>
