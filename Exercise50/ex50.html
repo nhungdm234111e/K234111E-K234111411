@@ -1,0 +1,158 @@
+<html>
+    <head>
+        <title>Travel Expense Report - Đặng Mai Nhung</title>
+        <style>
+            body {
+                background-color: lightcyan;
+                font-family: Arial, sans-serif;
+            }
+            h2 {
+                color: black;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 5px;
+            }
+            td, th {
+                border: 1px solid #999;
+                padding: 5px;
+            }
+            .input, select, textarea {
+                width: 95%;
+                padding: 5px;
+            }
+            textarea {
+                height: 60px;
+            }
+            .buttons {
+                margin-top: 10px;
+            }
+            .buttons input {
+                margin-right: 10px;
+            }
+        </style>
+        <script>
+            function submitForm() {
+                fname = document.getElementById("fname").value;
+                lname = document.getElementById("lname").value;
+                ssn = document.getElementById("ssn").value;
+                dept = document.getElementById("department").value;
+                purpose = document.getElementById("purpose").value;
+                receipts = document.getElementById("receipts'):checked");
+
+                if (receipts)
+                    receiptAnswer = receipts.value;
+                else
+                    receiptAnswer = "N/A";
+
+                alert("Travel expense report has been submitted!");
+            function resetForm() {
+                document.getElementById("expenseForm").reset();
+                }
+            }
+        </script>
+
+    </head>
+    <body>
+        <p align="center">
+            <img src="../Exercise50/Images/DeLong.jpg" alt="DeLong Enterprises">
+        </p>
+        <h2>Travel Expense Report</h2>
+        <hr>
+        <form id="expenseForm">
+            <p>
+                <label for="fname">1) First Name:</label> 
+                <input type="text" name="fname" id="fname" name="fname"/>
+                &nbsp;&nbsp; 
+                <label for="lname">Last Name:</label>
+                <input type="text" name="lname" id="lname" name="lname"/>
+            </p>
+            <p>
+                <label for="ssn">2) Social Security Number:</label>
+                <input type="text" id="ssn" name="ssn">
+            </p>
+            <p>
+                <label for="department">3) Department:</label>
+                <select name="department" id="department">
+                    <option>Accounting</option>
+                    <option>Marketing</option>
+                    <option>Sales</option>
+                    <option>HR</option>
+                </select>
+            </p>
+            <p>4) Describe the purpose of your trip.</p>
+                <textarea name="purpose" id="purpose"></textarea>
+            <p>5) Itemize your travel expenses</p>
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                </tr>
+                <tr>
+                    <td><input type="date" id="date1" name="date1"></td>
+                    <td><input type="text" id="desc1" name="desc1"></td>
+                    <td>
+                        <select id="cat1" name="cat1">
+                            <option>Meal</option>
+                            <option>Lodging</option>
+                            <option>Transport</option>
+                                <option>Other</option>
+                        </select>
+                    </td>
+                    <td><input type="number" id="amt1" name="amt1"></td>
+                </tr>
+                <tr>
+                    <td><input type="date" id="date2" name="date2"></td>
+                    <td><input type="text" id="desc2" name="desc2"></td>
+                    <td>
+                        <select id="cat2" name="cat2">
+                            <option>Meal</option>
+                            <option>Lodging</option>
+                            <option>Transport</option>
+                            <option>Other</option>
+                        </select>
+                    </td>
+                    <td><input type="number" id="amt2" name="amt2"></td>
+                </tr>
+                <tr>
+                    <td><input type="date" id="date3" name="date3"></td>
+                    <td><input type="text" id="desc3" name="desc3"></td>
+                    <td>
+                        <select id="cat3" name="cat3">
+                            <option>Meal</option>
+                            <option>Lodging</option>
+                            <option>Transport</option>
+                            <option>Other</option>
+                        </select>
+                    </td>
+                    <td><input type="number" id="amt3" name="amt3"></td>
+                </tr>
+                <tr>
+                    <td><input type="date" id="date4" name="date4"></td>
+                    <td><input type="text" id="desc4" name="desc4"></td>
+                    <td>
+                        <select id="cat4" name="cat4">
+                            <option>Meal</option>
+                            <option>Lodging</option>
+                            <option>Transport</option>
+                            <option>Other</option>
+                        </select>
+                    </td>
+                    <td><input type="number" id="amt4" name="amt4"></td>
+                </tr>
+            </table>
+            <p>6) Have you submitted your receipts?
+                <label><input type="radio" name="receipts" id="rec1" value="yes"> Yes</label>
+                <label><input type="radio" name="receipts" id="rec2" value="no"> No</label>
+            </p>
+            <div class="buttons">
+                <input type="button" value="Submit travel expenses" onclick="submitForm()">
+                <input type="button" value="Reset" onclick="resetForm()">
+            </div>
+            <p><i>Questions? Contact Debbie Larson in Accounting (ext. 2150).</i></p>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,142 @@
+<html>
+<head>
+    <title>Newborn Registration - Đặng Mai Nhung</title>
+    <style>
+        body {
+            background-color: teal;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            text-align: center;
+            color: white;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 6px 10px;
+            color: white;
+            vertical-align: middle;
+        }
+
+        input, select {
+            width: 180px;
+            padding: 3px;
+            border: none;
+        }
+        textarea {
+            width: 90%;
+            height: 60px;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .buttons input {
+            margin: 0 px;
+            background-color: white;
+            color: black;
+            border: 1px solid black;
+            border-radius: 2px;
+            width: 90px;
+            height: 25px;
+            cursor: pointer;
+        }
+        .buttons input:hover {
+            background-color: lightgray;
+        }
+    </style>
+
+    <script>
+        function registerNewborn() {
+            date = document.getElementById("regDate").value;
+            infantF = document.getElementById("infantF").value;
+            infantL = document.getElementById("infantL").value;
+            medical = document.getElementById("medical").value;
+            birth = document.getElementById("birth").value;
+            weight = document.getElementById("weight").value;
+            apgar = document.getElementById("apgar").value;
+            motherF = document.getElementById("motherF").value;
+            motherL = document.getElementById("motherL").value;
+            fatherF = document.getElementById("fatherF").value;
+            fatherL = document.getElementById("fatherL").value;
+
+            doctors = document.getElementsByName("doctor");
+            selectedDoctors = "";
+            for (i = 0; i < doctors.length; i++) {
+                if (doctors[i].checked) {
+                    selectedDoctors += doctors[i].value + "<br>";
+                }
+            }
+
+            alert("Newborn registration has been submitted!");
+
+        function clearForm() {
+            document.getElementById("newbornForm").reset();
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <p align="center">
+        <img src="images/Logo.gif"/>
+    </p>
+    <h2>Newborn Registration</h2>
+
+    <form id="newbornForm">
+        <table>
+            <tr>
+                <td>Date</td>
+                <td><input type="date" id="regDate"></td>
+            </tr>
+            <tr>
+                <td>1) Infant's first name:</td>
+                <td><input type="text" id="infantF"> Last: <input type="text" id="infantL"></td>
+            </tr>
+            <tr>
+                <td>2) Medical Record #:</td>
+                <td><input type="text" id="medical"></td>
+            </tr>
+            <tr>
+                <td>3) Date of birth:</td>
+                <td><input type="date" id="birth"></td>
+            </tr>
+            <tr>
+                <td>4) Birth weight:</td>
+                <td><input type="text" id="weight"></td>
+            </tr>
+            <tr>
+                <td>5) APGAR score:</td>
+                <td><input type="text" id="apgar"></td>
+            </tr>
+            <tr>
+                <td>6) Mother’s first name:</td>
+                <td><input type="text" id="motherF"> Last: <input type="text" id="motherL"></td>
+            </tr>
+            <tr>
+                <td>7) Father’s first name:</td>
+                <td><input type="text" id="fatherF"> Last: <input type="text" id="fatherL"></td>
+            </tr>
+            <tr>
+            <td>8) Physician (check all that apply):</td>
+            <td>
+                <select multiple size="4">
+                <option>Dr. Warren Albert</option>
+                <option>Dr. Maria Alvarez</option>
+                <option>Dr. Karen Brinkman</option>
+                <option>Dr. Micheal Kerry</option>
+                </select>
+            </td>
+            </tr>
+        </table>
+
+        <div class="buttons">
+            <input type="button" value="Register" onclick="registerNewborn()">
+            <input type="button" value="Cancel" onclick="clearForm()">
+        </div>
+    </form>
+</body>
+</html>
