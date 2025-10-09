@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <title>Order - DANG MAI NHUNG</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 600px;
+        }
+        th, td {
+            border: 1px solid lightgrey;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: white;
+        }
+        </style>
+        <script>
+        function getUrlVars() {
+            var vars = {};
+            window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+                function (m, key, value) {
+                    vars[key] = value;
+                });
+            return vars;
+        }
+
+        window.onload = function() {
+            var qty1 = unescape(getUrlVars()["qty1"]);
+            var qty2 = unescape(getUrlVars()["qty2"]);
+            var qty3 = unescape(getUrlVars()["qty3"]);
+            var item1 = unescape(getUrlVars()["item1"]);
+            var item2 = unescape(getUrlVars()["item2"]);
+            var item3 = unescape(getUrlVars()["item3"]);
+            var total = unescape(getUrlVars()["total"]);
+
+            document.getElementById("qty1").innerHTML = qty1;
+            document.getElementById("qty2").innerHTML = qty2;
+            document.getElementById("qty3").innerHTML = qty3;
+            document.getElementById("item1").innerHTML = item1;
+            document.getElementById("item2").innerHTML = item2;
+            document.getElementById("item3").innerHTML = item3;
+            document.getElementById("total").innerHTML = total;
+        }  
+        </script>
+    </head>
+    <body>
+        <h2>Order</h2>
+        <table>
+        <tr>
+            <th>Part Number</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Item total</th>
+        </tr>
+        <tr>
+            <td>C112</td>
+            <td>Mouse</td>
+            <td>19.95$</td>
+            <td id="qty1"></td>
+            <td id="item1"></td>
+        </tr>
+        <tr>
+            <td>B124</td>
+            <td>Keyboard US</td>
+            <td>29.95$</td>
+            <td id="qty2"></td>
+            <td id="item2"></td>
+        </tr>
+        <tr>
+            <td>U125</td>
+            <td>USB KingMax</td>
+            <td>39.95$</td>
+            <td id="qty3"></td>
+            <td id="item3"></td>
+        </tr>
+        <tr>
+            <td colspan="4" style="text-align:right"><strong>Total:</strong></td>
+            <td id="total"></td>
+        </tr>
+        </table>
+    </body>
+</html>
+
+

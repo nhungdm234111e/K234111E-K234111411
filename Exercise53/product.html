@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>List of Product - DANG MAI NHUNG </title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 40px;
+            }
+            table {
+                border-collapse: collapse;
+                width: 600px;
+            }
+            th, td {
+                border: 1px solid lightgray;
+                padding: 8px;
+                text-align: center;
+            }
+            input[type="text"] {
+                width: 80px;
+                text-align: right;
+            }
+            #sum {
+                background-color: orange;
+                color: white;
+                border: none;
+                padding: 8px 20px;
+                font-weight: bold;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+            #sum:hover {
+                color: white;
+                background-color: green;
+            }
+        </style>
+        <script>
+            var prices = [19.95, 29.95, 39.95];
+            function calculateTotal() {
+                var total = 0;
+                for (var i = 1; i <= 3; i++) {
+                    var qty = document.getElementById("qty" + i).value;
+                    var itemTotal = 0;
+                    if (qty && qty !== "") {
+                        qty = parseFloat(qty);
+                        if (!isNaN(qty)) {
+                            itemTotal = qty * prices[i-1];
+                            total += itemTotal;
+                        }
+                    }
+                    document.getElementById("item" + i).value = 
+                        itemTotal > 0 ? itemTotal.toFixed(2) : "";
+                }
+                document.getElementById("total").value = 
+                    total > 0 ? total.toFixed(2) : "";
+            }
+            function submitForm() {
+                calculateTotal();
+                document.getElementById("productForm").submit();
+            }
+        </script>
+    </head>
+    <body>
+        <h2>List of Products</h2>
+        <form action="serverGet.html" method="get" id="productForm">
+            <table>
+            <tr>
+                <th>Part Number</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Item total</th>
+            </tr>
+            <tr>
+                <td>C112</td>
+                <td>Mouse</td>
+                <td>19.95$</td>
+                <td><input type="text" name="qty1" id="qty1"></td>
+                <td><input type="text" name="item1" id="item1"></td>
+            </tr>
+            <tr>
+                <td>B124</td>
+                <td>Keyboard US</td>
+                <td>29.95$</td>
+                <td><input type="text" name="qty2" id="qty2"></td>
+                <td><input type="text" name="item2" id="item2"></td>
+            </tr>
+            <tr>
+                <td>U125</td>
+                <td>USB KingMax</td>
+                <td>39.95$</td>
+                <td><input type="text" name="qty3" id="qty3"></td>
+                <td><input type="text" name="item3" id="item3"></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align:right;">
+                    <strong>Total:</strong>
+                    <input type="text" name="total" id="total">
+                    <br>
+                    <input type="button" name="sum" id="sum" value="Sum" onclick="submitForm()">                
+                </td>
+            </tr>
+            </table>
+        </form>
+    </body>
+</html>
