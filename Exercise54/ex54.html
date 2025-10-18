@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>Math function - DANG MAI NHUNG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 17;
+            width: auto;
+            margin: 10px;
+            padding: 20px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td>a:</td>
+            <td><input type="number" id="inputA" name="inputA"></td>
+        </tr>
+        <tr>
+            <td>b:</td>
+            <td><input type="number" id="inputB" name="inputB"></td>
+        </tr>
+        <tr>
+            <td>c:</td>
+            <td><input type="number" id="inputC" name="inputC"></td>
+        </tr>
+        <tr>
+            <td>Result:</td>
+            <td class="result" id="result"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="button" class="max" onclick="calculateMAX()">MAX</button>
+                <button type="button" class="min" onclick="calculateMIN()">MIN</button>
+                <button type="button" class="sin" onclick="calculateSin()">sin(a)</button>
+                <button type="button" class="cos" onclick="calculateCos()">Cos(a)</button>
+                <button type="button" class="pow" onclick="calculatePower()">a^b</button>
+            </td>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+        function calculateMAX() {
+            var a = parseFloat(document.getElementById('inputA').value);
+            var b = parseFloat(document.getElementById('inputB').value);
+            var c = parseFloat(document.getElementById('inputC').value);
+            var max = Math.max(a, b, c);
+            document.getElementById('result').innerHTML = max;
+        }
+
+        function calculateMIN() {
+            var a = parseFloat(document.getElementById('inputA').value);
+            var b = parseFloat(document.getElementById('inputB').value);
+            var c = parseFloat(document.getElementById('inputC').value);
+            
+            var min = Math.min(a, b, c);
+            document.getElementById('result').innerHTML = min;
+        }
+
+        function calculateSin() {
+            var a = parseFloat(document.getElementById('inputA').value);
+            
+            var radians = a * Math.PI / 180;
+            var result = Math.sin(radians);
+            document.getElementById('result').innerHTML = result;
+        }
+
+        function calculateCos() {
+            var a = parseFloat(document.getElementById('inputA').value);
+            
+            var radians = a * Math.PI / 180;
+            var result = Math.cos(radians);
+            document.getElementById('result').innerHTML = result;
+        }
+
+        function calculatePower() {
+            var a = parseFloat(document.getElementById('inputA').value);
+            var b = parseFloat(document.getElementById('inputB').value);
+            
+            var result = Math.pow(a, b);
+            document.getElementById('result').innerHTML = result;
+        }
+    </script>
+</body>
+</html>

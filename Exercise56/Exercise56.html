@@ -1,0 +1,189 @@
+<html>
+    <head>
+        <title>EX 56 - DANG MAI NHUNG</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                width: 700px;
+                margin: 40px;
+                background-color: #fff;
+            }
+
+            h2 {
+                text-align: center;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            table {
+                border: 1px solid gray;
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            td {
+                padding: 8px;
+                text-align: center;
+            }
+
+            fieldset {
+                text-align: left;
+            }
+
+            legend {
+                font-weight: bold;
+            }
+
+            textarea {
+                width: 95%;
+                height: 100px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                padding: 6px;
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+            }
+
+            button {
+                width: 95%;
+                padding: 8px;
+                border: 1px solid gray;
+                background-color: #f0f0f0;
+                cursor: pointer;
+                border-radius: 3px;
+                font-size: 13px;
+            }
+
+            button:hover {
+                background-color: #ddd;
+            }
+
+            button:active {
+                background-color: #ccc;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h2>Using String Processing functions</h2>
+        <form name="my_form">
+            <table>
+                <tr>
+                    <td>
+                        <fieldset>
+                            <legend>Input Data:</legend>
+                            <textarea id="input_data"></textarea>
+                        </fieldset>
+                    </td>
+                    <td>
+                        <fieldset>
+                            <legend>Result:</legend>
+                            <textarea id="result_data"></textarea>
+                        </fieldset>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><button type="button" onclick="enter_data()">Enter Data</button></td>
+                    <td><button type="button" onclick="count_uppercase()">Count the number of uppercase characters</button></td>
+                </tr>
+
+                <tr>
+                    <td><button type="button" onclick="uppercase_display()">Uppercase display</button></td>
+                    <td><button type="button" onclick="output_one_word()">Output one word per line</button></td>
+                </tr>
+
+                <tr>
+                    <td><button type="button" onclick="lowercase_display()">Lowercase display</button></td>
+                    <td><button type="button" onclick="word_count()">Word count</button></td>
+                </tr>
+
+                <tr>
+                    <td><button type="button" onclick="count_lowercase()">Count the number of lowercase characters</button></td>
+                    <td><button type="button" onclick="print_vowels_consonants()">Print vowels, consonants</button></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <button type="button" class="web" onclick="open_web()">W3C's String Processing Website</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <script>
+            function enter_data() {
+                document.getElementById("result_data").value =
+                    document.getElementById("input_data").value;
+            }
+
+            function count_uppercase() {
+                input = document.getElementById("input_data").value;
+                count = 0;
+                for (i = 0; i < input.length; i++) {
+                    if (input[i] >= 'A' && input[i] <= 'Z')
+                        count++;
+                }
+                document.getElementById("result_data").value = + count;
+            }
+
+            function uppercase_display() {
+                document.getElementById("result_data").value =
+                    document.getElementById("input_data").value.toUpperCase();
+            }
+
+            function output_one_word() {
+                input = document.getElementById("input_data").value.trim();
+                words = input.split(/\s+/);
+                document.getElementById("result_data").value = words.join("\n");
+            }
+
+            function lowercase_display() {
+                document.getElementById("result_data").value =
+                    document.getElementById("input_data").value.toLowerCase();
+            }
+
+            function word_count() {
+                input = document.getElementById("input_data").value.trim();
+                if (input == "")
+                    document.getElementById("result_data").value = "Total words: 0";
+                else {
+                    words = input.split(/\s+/);
+                    document.getElementById("result_data").value = + words.length;
+                }
+            }
+
+            function count_lowercase() {
+                input = document.getElementById("input_data").value;
+                count = 0;
+                for (i = 0; i < input.length; i++) {
+                    if (input[i] >= 'a' && input[i] <= 'z')
+                        count++;
+                }
+                document.getElementById("result_data").value = + count;
+            }
+
+            function print_vowels_consonants() {
+                input = document.getElementById("input_data").value;
+                vowels = "";
+                consonants = "";
+                vowelsList = "aeiouAEIOU";
+                for (i = 0; i < input.length; i++) {
+                    c = input[i];
+                    if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
+                        if (vowelsList.indexOf(c) != -1)
+                            vowels += c + " ";
+                        else
+                            consonants += c + " ";
+                    }
+                }
+                document.getElementById("result_data").value =
+                    "Vowels: " + vowels.trim() + "\n\nConsonants: " + consonants.trim();
+            }
+
+            function open_web() {
+                window.open("https://www.w3schools.com/js/js_string_methods.asp", "_blank");
+            }
+        </script>
+    </body>
+</html>

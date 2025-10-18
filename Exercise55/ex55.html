@@ -1,0 +1,146 @@
+<html>
+    <head>
+        <title>Quadratic Equation - DANG MAI NHUNG</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: auto;
+                margin: 50px;
+                padding: 20px;
+                background-color: #ffffff;
+            }
+            .container {
+                background-color: white;
+                border: 2px solid #333;
+                border-radius: 8px;
+                padding: 20px;
+            }
+            h1 {
+                text-align: center;
+                margin: -20px -20px 20px -20px;
+                padding: 15px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            td {
+                padding: 10px;
+                border: 1px solid #999;
+            }
+
+            input[type="number"] {
+                width: 95%;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+            .result-cell {
+                background-color: #fff9e6;
+                font-weight: bold;
+                color: red;
+                min-height: 30px;
+            }
+            .button-cell {
+                text-align: center;
+                padding: 15px;
+            }
+            button {
+                padding: 10px 25px;
+                margin: 0 10px;
+                font-size: 14px;
+                font-weight: bold;
+                border: 1px solid #ffd900;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+            .find-btn:hover {
+                background-color: white;
+                color: black;
+            }
+
+            .clear-btn:hover {
+                background-color: white;
+                color: black;
+            }
+        </style>
+    </head>
+    <body>
+            <h1>The quadratic equation</h1>
+            <table>
+                <tr>
+                    <td>a:</td>
+                    <td><input type="number" id="inputA"></td>
+                </tr>
+                <tr>
+                    <td>b:</td>
+                    <td><input type="number" id="inputB"></td>
+                </tr>
+                <tr>
+                    <td>c:</td>
+                    <td><input type="number" id="inputC"></td>
+                </tr>
+                <tr>
+                    <td>Result:</td>
+                    <td class="result-cell" id="resultCell"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="button-cell">
+                        <button type="button" class="find-btn" onclick="findSolution()">Find solution</button>
+                        <button type="button" class="clear-btn" onclick="clearAll()">Clear</button>
+                    </td>
+                </tr>
+            </table>
+        <script type="text/javascript">
+            function findSolution() {
+                var a = parseFloat(document.getElementById('inputA').value);
+                var b = parseFloat(document.getElementById('inputB').value);
+                var c = parseFloat(document.getElementById('inputC').value);
+                var resultCell = document.getElementById('resultCell');
+                
+                if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                    resultCell.innerHTML = "Please enter valid numbers";
+                    return;
+                }
+                
+                if (a === 0) {
+                    resultCell.innerHTML = "Coefficient a cannot be zero";
+                    return;
+                }
+                
+                var delta = b * b - 4 * a * c;
+                
+                if (delta > 0) {
+                    var x1 = (-b + Math.sqrt(delta)) / (2 * a);
+                    var x2 = (-b - Math.sqrt(delta)) / (2 * a);
+                    
+                    x1 = Math.round(x1 * 1000000) / 1000000;
+                    x2 = Math.round(x2 * 1000000) / 1000000;
+                    
+                    resultCell.innerHTML = "x1=" + x1 + " ; x2=" + x2;
+                } else if (delta === 0) {
+                    var x = -b / (2 * a);
+                    x = Math.round(x * 1000000) / 1000000;
+                    
+                    resultCell.innerHTML = "x1=x2=" + x;
+                } else {
+                    var realPart = -b / (2 * a);
+                    var imagPart = Math.sqrt(-delta) / (2 * a);
+                    
+                    realPart = Math.round(realPart * 1000000) / 1000000;
+                    imagPart = Math.round(imagPart * 1000000) / 1000000;
+                    
+                    resultCell.innerHTML = "x1=" + realPart + "+" + imagPart + "i ; x2=" + realPart + "-" + imagPart + "i";
+                }
+            }
+
+            function clearAll() {
+                document.getElementById('inputA').value = "";
+                document.getElementById('inputB').value = "";
+                document.getElementById('inputC').value = "";
+                document.getElementById('resultCell').innerHTML = "";
+            }
+        </script>
+    </body>
+</html>
