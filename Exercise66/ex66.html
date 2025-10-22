@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <title>Student Information</title>
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 40%;
+            }
+            th {
+                background-color: #d8ead3;
+                border: 1px solid black;
+                padding: 8px;
+            }
+            td {
+                border: 1px solid black;
+                padding: 8px;
+            }
+        </style>
+        <script type="text/javascript">
+            function changeBlue(tr) {
+                tr.style.backgroundColor = "blue";
+                tr.style.color = "white";
+            }
+            
+            function changeWhite(tr) {
+                tr.style.backgroundColor = "white";
+                tr.style.color = "black";
+            }
+        </script>
+    </head>
+    <body>
+        <table id="studentTable">
+            <tr>
+                <th colspan="2">Student Information</th>
+            </tr>
+        </table>
+        
+        <script type="text/javascript">
+            var txt = "<student>";
+            txt += "<id>987456</id>";
+            txt += "<name>Marie Curie</name>";
+            txt += "<birthday>7/11/1867</birthday>";
+            txt += "<gender>Woman</gender>";
+            txt += "</student>";
+            
+            var parser = new DOMParser();
+            var xmlDoc = parser.parseFromString(txt, "text/xml");
+            
+            var id = xmlDoc.getElementsByTagName("id")[0].childNodes[0].nodeValue;
+            var name = xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
+            var birthday = xmlDoc.getElementsByTagName("birthday")[0].childNodes[0].nodeValue;
+            var gender = xmlDoc.getElementsByTagName("gender")[0].childNodes[0].nodeValue;
+            
+            var table = document.getElementById("studentTable");
+            
+            var data = [
+                ["Student ID:", id],
+                ["Student Name:", name],
+                ["Birthday:", birthday],
+                ["Gender:", gender]
+            ];
+            
+            for (var i = 0; i < data.length; i++) {
+                var row = table.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = data[i][0];
+                cell2.innerHTML = data[i][1];
+                
+                row.setAttribute("onmouseover", "changeBlue(this)");
+                row.setAttribute("onmouseout", "changeWhite(this)");
+            }
+        </script>
+    </body>
+</html>
