@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự báo thời tiết Việt Nam</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .search-box {
+            padding: 25px;
+            background: #f9f9f9;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .search-box label {
+            display: inline-block;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-right: 15px;
+            color: #333;
+        }
+
+        #provinces {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            min-width: 250px;
+            transition: all 0.3s ease;
+        }
+
+        #provinces:hover {
+            border-color: #667eea;
+        }
+
+        #provinces:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        #weather {
+            padding: 30px;
+        }
+
+        #weather:empty {
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #667eea;
+            font-size: 1.3em;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .weather-current {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .current-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .current-date {
+            text-align: center;
+            border-right: 2px solid rgba(255,255,255,0.3);
+            padding-right: 30px;
+        }
+
+        .date-day {
+            font-size: 3em;
+            font-weight: bold;
+        }
+
+        .today-label {
+            background: #ff6b6b;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .current-temp-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .current-icon {
+            font-size: 5em;
+        }
+
+        .current-temp {
+            font-size: 5em;
+            font-weight: bold;
+        }
+
+        .current-desc {
+            font-size: 1.5em;
+            opacity: 0.9;
+        }
+
+        .current-details {
+            display: flex;
+            gap: 30px;
+        }
+
+        .detail-box {
+            text-align: center;
+        }
+
+        .detail-box-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .detail-box-value {
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .forecast-title {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .forecast-days {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .day-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .day-date {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .day-name {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+
+        .day-icon {
+            font-size: 3.5em;
+            margin: 15px 0;
+        }
+
+        .day-temp {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #ff6600;
+            margin: 10px 0;
+        }
+
+        .day-desc {
+            color: #555;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .day-minmax {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 60px;
+            color: #e74c3c;
+            font-size: 1.2em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 0.9em;
+            background: #f9f9f9;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .weather-current {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .current-left {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .current-date {
+                border-right: none;
+                border-bottom: 2px solid rgba(255,255,255,0.3);
+                padding-right: 0;
+                padding-bottom: 20px;
+            }
+
+            .forecast-days {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌤️ Dự báo thời tiết</h1>
+        </header>
+
+        <div class="search-box">
+            <label for="provinces">Dự báo thời tiết</label>
+            <select id="provinces" onchange="loadWeather(this.value)">
+                <option value="">-- Chọn tỉnh thành --</option>
+            </select>
+        </div>
+
+        <div id="weather"></div>
+
+        <footer>
+            © 2025 Dữ liệu từ Tuổi Trẻ Online | Cập nhật liên tục
+        </footer>
+    </div>
+
+    <script>
+        var ids = ['2347719', '20070078', '20070086', '2347731', '2347730', '20070081', '20070087', '20070084', '20070088', '2347703', '2347704', '20070082', '2347732', '28301718', '20070085', '1252375', '2347720', '28301719', '2347721', '2347722', '2347733', '2347727', '2347728', '2347734', '2347741', '2347736', '2347737', '20070079', '20070080', '2347707', '28301720', '2347738', '2347723', '20070076', '2347708', '2347710', '2347740', '2347709', '2347718', '20070089', '2347742', '2347743', '2347744', '20070091', '2347745', '2347746', '2347711', '20070077', '2347712', '2347747', '2347748', '2347713', '2347715', '2347716', '20070083', '2347749', '2347717', '2347750', '2347751', '2347714', '2347752', '20070090', '2347729', '2347753'];
+        
+        var names = ['An Giang', 'Bình Dương', 'Bình Phước', 'Bình Thuận', 'Bình Định', 'Bạc Liêu', 'Bắc Giang', 'Bắc Kạn', 'Bắc Ninh', 'Bến Tre', 'Cao Bằng', 'Cà Mau', 'Cần Thơ', 'Điện Biên', 'Đà Nẵng', 'Đà Lạt', 'Đắk Lắk', 'Đắk Nông', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'Hà Nội', 'TP. Hồ Chí Minh', 'Hà Giang', 'Hà Nam', 'Hà Tĩnh', 'Hòa Bình', 'Hưng Yên', 'Hải Dương', 'Hải Phòng', 'Hậu Giang', 'Khánh Hòa', 'Kiên Giang', 'Kon Tum', 'Lai Châu', 'Long An', 'Lào Cai', 'Lâm Đồng', 'Lạng Sơn', 'Nam Định', 'Nghệ An', 'Ninh Bình', 'Ninh Thuận', 'Phú Thọ', 'Phú Yên', 'Quảng Bình', 'Quảng Nam', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sóc Trăng', 'Sơn La', 'Thanh Hóa', 'Thái Bình', 'Thái Nguyên', 'Thừa Thiên Huế', 'Tiền Giang', 'Trà Vinh', 'Tuyên Quang', 'Tây Ninh', 'Vĩnh Long', 'Vĩnh Phúc', 'Vũng Tàu', 'Yên Bái'];
+
+        // Tạo danh sách select
+        const select = document.getElementById('provinces');
+        ids.forEach((id, index) => {
+            const opt = document.createElement('option');
+            opt.value = id;
+            opt.textContent = names[index];
+            select.appendChild(opt);
+        });
+
+        function getWeatherIcon(code) {
+            if (code === 0) return '☀️';
+            if (code <= 3) return '⛅';
+            if (code <= 48) return '🌫️';
+            if (code <= 67) return '🌧️';
+            if (code <= 77) return '❄️';
+            if (code <= 82) return '🌦️';
+            if (code <= 86) return '🌨️';
+            if (code <= 99) return '⛈️';
+            return '🌤️';
+        }
+
+        function getWeatherDesc(code) {
+            if (code === 0) return 'Trời quang';
+            if (code === 1) return 'Có mây';
+            if (code === 2) return 'Nhiều mây';
+            if (code === 3) return 'Trời u ám';
+            if (code === 45 || code === 48) return 'Sương mù';
+            if (code === 51 || code === 53 || code === 55) return 'Mưa phùn';
+            if (code === 61 || code === 63 || code === 65) return 'Mưa';
+            if (code === 71 || code === 73 || code === 75) return 'Tuyết';
+            if (code === 77) return 'Mưa tuyết';
+            if (code === 80 || code === 81 || code === 82) return 'Mưa rào';
+            if (code === 85 || code === 86) return 'Mưa tuyết';
+            if (code === 95) return 'Dông';
+            if (code === 96 || code === 99) return 'Dông có mưa đá';
+            return 'Thay đổi';
+        }
+
+        function getDayName(dateStr) {
+            const days = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+            const date = new Date(dateStr);
+            return days[date.getDay()];
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return `${date.getDate()}/${date.getMonth() + 1}`;
+        }
+
+        async function loadWeather(cityId) {
+            const weatherDiv = document.getElementById('weather');
+            
+            if (!cityId) {
+                weatherDiv.innerHTML = '';
+                return;
+            }
+
+            // Tìm tên thành phố từ ID
+            const cityIndex = ids.indexOf(cityId);
+            const cityName = names[cityIndex];
+
+            // URL API Tuổi Trẻ
+            const url = `https://utils3.cdnnd.vn/ajax/weatherinfo/${cityId}.htm`;
+            
+            weatherDiv.innerHTML = "<div class='loading'>Đang tải dữ liệu thời tiết</div>";
+
+            try {
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error('Không thể tải dữ liệu từ Tuổi Trẻ');
+                }
+                
+                const html = await response.text();
+                
+                // Parse HTML để lấy dữ liệu
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Tìm các phần tử dữ liệu trong HTML
+                const tempElement = doc.querySelector('.temp');
+                const descElement = doc.querySelector('.desc');
+                
+                if (tempElement) {
+                    // Hiển thị dữ liệu từ Tuổi Trẻ
+                    displayWeatherFromHTML(html, cityName);
+                } else {
+                    throw new Error('Không tìm thấy dữ liệu thời tiết');
+                }
+
+            } catch (error) {
+                console.error('Lỗi:', error);
+                weatherDiv.innerHTML = `<div class='error-message'>❌ Không thể tải dữ liệu từ API Tuổi Trẻ (CORS blocked).<br><br>Đang chuyển sang dữ liệu dự phòng...</div>`;
+                
+                // Fallback: Sử dụng Open-Meteo API
+                setTimeout(() => loadWeatherFallback(cityName), 2000);
+            }
+        }
+
+        function displayWeatherFromHTML(html, cityName) {
+            const weatherDiv = document.getElementById('weather');
+            
+            const today = new Date();
+            const dateDay = today.getDate();
+            const dateMonth = today.getMonth() + 1;
+
+            // Wrapper cho nội dung từ Tuổi Trẻ
+            const wrapper = `
+                <div class="weather-current">
+                    <div class="current-left">
+                        <div class="current-date">
+                            <div class="date-day">${dateDay}/${dateMonth}</div>
+                            <div class="today-label">Hôm nay</div>
+                        </div>
+                        <div class="current-temp-section">
+                            <div style="font-size: 1.2em; color: white;">📍 ${cityName}</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="background: white; padding: 20px; border-radius: 10px;">
+                    ${html}
+                </div>
+            `;
+
+            weatherDiv.innerHTML = wrapper;
+        }
+
+        async function loadWeatherFallback(cityName) {
+            const weatherDiv = document.getElementById('weather');
+            
+            // Map tên thành phố sang tọa độ
+            const cityCoords = {
+                'Hà Nội': {lat: 21.0285, lon: 105.8542},
+                'TP. Hồ Chí Minh': {lat: 10.8231, lon: 106.6297},
+                'Đà Nẵng': {lat: 16.0544, lon: 108.2022},
+                'Hải Phòng': {lat: 20.8449, lon: 106.6881},
+                'Cần Thơ': {lat: 10.0452, lon: 105.7469}
+            };
+
+            // Sử dụng tọa độ mặc định nếu không tìm thấy
+            const coords = cityCoords[cityName] || {lat: 21.0285, lon: 105.8542};
+            
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia/Bangkok&forecast_days=7`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                displayWeatherFallbackData(data, cityName);
+            } catch (error) {
+                weatherDiv.innerHTML = `<div class='error-message'>❌ Không thể tải dữ liệu thời tiết.<br>Vui lòng thử lại sau.</div>`;
+            }
+        }
+
+        function displayWeatherFallbackData(data, cityName) {
+            const weatherDiv = document.getElementById('weather');
+            const current = data.current;
+            const daily = data.daily;
+            
+            const today = new Date();
+            const dateDay = today.getDate();
+            const dateMonth = today.getMonth() + 1;
+
+            const temp = Math.round(current.temperature_2m);
+            const feelsLike = Math.round(current.apparent_temperature);
+            const humidity = current.relative_humidity_2m;
+            const windSpeed = current.wind_speed_10m.toFixed(1);
+            const weatherCode = current.weather_code;
+            const icon = getWeatherIcon(weatherCode);
+            const description = getWeatherDesc(weatherCode);
+
+            let forecastHTML = '';
+            for (let i = 1; i < 6; i++) {
+                const dayDate = daily.time[i];
+                const dayTemp = Math.round((daily.temperature_2m_max[i] + daily.temperature_2m_min[i]) / 2);
+                const dayMax = Math.round(daily.temperature_2m_max[i]);
+                const dayMin = Math.round(daily.temperature_2m_min[i]);
+                const dayCode = daily.weather_code[i];
+                const dayIcon = getWeatherIcon(dayCode);
+                const dayDesc = getWeatherDesc(dayCode);
+                const dayName = getDayName(dayDate);
+                const formattedDate = formatDate(dayDate);
+
+                forecastHTML += `
+                    <div class="day-card">
+                        <div class="day-date">${formattedDate}</div>
+                        <div class="day-name">${dayName}</div>
+                        <div class="day-icon">${dayIcon}</div>
+                        <div class="day-temp">${dayTemp}°</div>
+                        <div class="day-desc">${dayDesc}</div>
+                        <div class="day-minmax">
+                            <span>↑ ${dayMax}°</span>
+                            <span>↓ ${dayMin}°</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const html = `
+                <div class="weather-current">
+                    <div class="current-left">
+                        <div class="current-date">
+                            <div class="date-day">${dateDay}/${dateMonth}</div>
+                            <div class="today-label">Hôm nay</div>
+                        </div>
+                        <div class="current-temp-section">
+                            <div class="current-icon">${icon}</div>
+                            <div>
+                                <div class="current-temp">${temp}°</div>
+                                <div class="current-desc">${description}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="current-details">
+                        <div class="detail-box">
+                            <div class="detail-box-label">Cảm giác</div>
+                            <div class="detail-box-value">${feelsLike}°</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-box-label">Độ ẩm</div>
+                            <div class="detail-box-value">${humidity}%</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-box-label">Gió</div>
+                            <div class="detail-box-value">${windSpeed} km/h</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="forecast-title">📅 Dự báo 5 ngày tới</div>
+                <div class="forecast-days">
+                    ${forecastHTML}
+                </div>
+            `;
+
+            weatherDiv.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
