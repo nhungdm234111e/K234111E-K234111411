@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tin tức VnExpress</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f2f3f5;
+      color: #333;
+    }
+
+    header {
+      background: #b71c1c;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    header h1 {
+      font-size: 1.8em;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: 25px auto;
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .category-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .category-btn {
+      background: #eee;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 25px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.25s;
+      color: #555;
+    }
+
+    .category-btn:hover {
+      background: #b71c1c;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .category-btn.active {
+      background: #b71c1c;
+      color: white;
+    }
+
+    .news-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .news-item {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .news-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .news-item img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .news-content {
+      padding: 15px;
+    }
+
+    .news-content h3 {
+      font-size: 1.1em;
+      margin-bottom: 8px;
+      color: #222;
+      line-height: 1.4;
+    }
+
+    .news-content p {
+      font-size: 0.92em;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 50px;
+      font-size: 1.1em;
+      color: #888;
+    }
+
+    footer {
+      text-align: center;
+      color: #888;
+      font-size: 0.9em;
+      margin: 30px 0;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+
+  <script type="text/javascript">
+    var rssChannels = {
+      "tin-moi-nhat": "https://vnexpress.net/rss/tin-moi-nhat.rss",
+      "kinh-doanh": "https://vnexpress.net/rss/kinh-doanh.rss",
+      "giai-tri": "https://vnexpress.net/rss/giai-tri.rss",
+      "the-thao": "https://vnexpress.net/rss/the-thao.rss",
+      "suc-khoe": "https://vnexpress.net/rss/suc-khoe.rss"
+    };
+
+    function load_news(category) {
+      var api = rssChannels[category];
+      var xhr = new XMLHttpRequest();
+      var rss2json = "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(api);
+
+      document.getElementById("newsContainer").innerHTML = "<div class='loading'>Đang tải tin tức...</div>";
+
+      xhr.open("GET", rss2json, true);
+      xhr.send();
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var data = JSON.parse(xhr.responseText);
+          var items = data.items;
+          display_news(items);
+        }
+      };
+    }
+
+    function display_news(items) {
+      var container = document.getElementById("newsContainer");
+      container.innerHTML = "";
+
+      if (!items || items.length === 0) {
+        container.innerHTML = "<div class='loading'>Không có tin nào.</div>";
+        return;
+      }
+
+      var listDiv = document.createElement("div");
+      listDiv.className = "news-list";
+
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var card = document.createElement("div");
+        card.className = "news-item";
+        card.onclick = (function(link) {
+          return function() { window.open(link, "_blank"); };
+        })(item.link);
+
+        var img = document.createElement("img");
+        img.src = item.thumbnail || "https://via.placeholder.com/300x180?text=No+Image";
+
+        var content = document.createElement("div");
+        content.className = "news-content";
+
+        var title = document.createElement("h3");
+        title.innerText = item.title;
+
+        var desc = document.createElement("p");
+        desc.innerText = item.description.replace(/<[^>]+>/g, "").substring(0, 160) + "...";
+
+        content.appendChild(title);
+        content.appendChild(desc);
+        card.appendChild(img);
+        card.appendChild(content);
+        listDiv.appendChild(card);
+      }
+
+      container.appendChild(listDiv);
+    }
+
+    function setActiveButton(category) {
+      var buttons = document.getElementsByClassName("category-btn");
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove("active");
+      }
+      document.querySelector(`[data-category='${category}']`).classList.add("active");
+    }
+
+    window.onload = function() {
+      load_news("tin-moi-nhat");
+      setActiveButton("tin-moi-nhat");
+
+      var buttons = document.getElementsByClassName("category-btn");
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener("click", function() {
+          var cat = this.getAttribute("data-category");
+          setActiveButton(cat);
+          load_news(cat);
+        });
+      }
+    };
+  </script>
+</head>
+<body>
+  <header>
+    <h1>VnExpress - Tin tức mới nhất</h1>
+  </header>
+
+  <div class="container">
+    <div class="category-bar">
+      <button class="category-btn active" data-category="tin-moi-nhat">Tin mới nhất</button>
+      <button class="category-btn" data-category="kinh-doanh">Kinh doanh</button>
+      <button class="category-btn" data-category="giai-tri">Giải trí</button>
+      <button class="category-btn" data-category="the-thao">Thể thao</button>
+      <button class="category-btn" data-category="suc-khoe">Sức khỏe</button>
+    </div>
+
+    <div id="newsContainer" class="news-list">
+      <div class="loading">Đang tải tin tức...</div>
+    </div>
+  </div>
+
+  <footer>© 2025 Tin tức tổng hợp từ RSS VnExpress | Giao diện thiết kế theo phong cách Dân Trí</footer>
+</body>
+</html>
